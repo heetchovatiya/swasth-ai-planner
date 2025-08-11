@@ -23,8 +23,8 @@ class Database:
         # DB for user-specific data
         user_db = client["swasth_user_data"]
         self.profiles_collection = user_db["profiles"]
-        self.plans_collection = user_db["saved_plans"]
-        self.favorites_collection = user_db["favorites"]
+        # self.plans_collection = user_db["saved_plans"]
+        # self.favorites_collection = user_db["favorites"]
 
     # --- Profile Methods ---
     def get_user_profile(self, user_id: str):
@@ -57,19 +57,19 @@ class Database:
             upsert=True
         )
 
-    def get_saved_plans(self, user_id: str):
-        return list(self.plans_collection.find({"user_id": user_id}).sort("saved_at", -1))
+    # def get_saved_plans(self, user_id: str):
+    #     return list(self.plans_collection.find({"user_id": user_id}).sort("saved_at", -1))
     
-    # --- Favorites Methods ---
-    def save_favorite_item(self, user_id: str, item_name: str, item_data: dict):
-        self.favorites_collection.update_one(
-            {"user_id": user_id, "item_name": item_name},
-            {"$set": {"item_data": item_data, "saved_at": datetime.utcnow()}},
-            upsert=True
-        )
+    # # --- Favorites Methods ---
+    # def save_favorite_item(self, user_id: str, item_name: str, item_data: dict):
+    #     self.favorites_collection.update_one(
+    #         {"user_id": user_id, "item_name": item_name},
+    #         {"$set": {"item_data": item_data, "saved_at": datetime.utcnow()}},
+    #         upsert=True
+    #     )
 
-    def get_favorite_items(self, user_id: str):
-        return list(self.favorites_collection.find({"user_id": user_id}).sort("saved_at", -1))
+    # def get_favorite_items(self, user_id: str):
+    #     return list(self.favorites_collection.find({"user_id": user_id}).sort("saved_at", -1))
 
 # Create a single, reusable instance for the app
 db_instance = Database()
